@@ -7,14 +7,23 @@
     android:layout_marginTop="24dp"
     >
     <ImageView
+        android:id="@+id/imageView_home_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher_background"
         />
     <TextView
+        android:id="@+id/textView_home_tenDoAn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tên đồ ăn"
+        android:textSize="17sp"
+        />
+    <TextView
+        android:id="@+id/textView_home_diaChi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adress"
         android:textSize="17sp"
         />
 </LinearLayout>

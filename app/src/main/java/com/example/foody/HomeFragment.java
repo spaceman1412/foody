@@ -12,8 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
+import com.example.foody.adapter.HomeAdapter;
+import com.example.foody.model.Shop;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeFragment extends Fragment {
@@ -21,6 +25,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     ImageButton imageButton;
     HomeAdapter adapter;
+    List<Shop> shopList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,9 +41,14 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         imageButton = (ImageButton) view.findViewById(R.id.btnCart);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_homeFragment);
-        adapter = new HomeAdapter();
+        shopList = new ArrayList<Shop>(
+        );
+        shopList.add(new Shop("ShopName", "aaa", "aaaa"));
+        shopList.add(new Shop("ShopName1", "aaa", "aaaa"));
+        shopList.add(new Shop("ShopName2", "aaa", "aaaa"));
+        adapter = new HomeAdapter(shopList);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

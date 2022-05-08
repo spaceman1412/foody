@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimen24dp"
+    >
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dimen24dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView_itemDetail_tenDoAn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên đồ ăn"
+            android:textSize="@dimen/dimen16sp" />
+
+        <TextView
+            android:id="@+id/textView_itemDetail_giaTien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá tiền"
+            android:textSize="@dimen/dimen16sp" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/imageView_item_detailItem"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="@dimen/dimen24dp"
+        android:layout_gravity="center_vertical"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_baseline_add_circle_24"/>
+</LinearLayout>
