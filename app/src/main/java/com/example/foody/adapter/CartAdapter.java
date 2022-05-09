@@ -48,8 +48,34 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
         for(Product product : listProduct) {
             View child = inflater.inflate(R.layout.cart_list_item,null);
-//            ((TextView) child.findViewById(R.id.textView_itemDetail_tenDoAn)).setText(product.getProductName());
-//            ((TextView) child.findViewById(R.id.textView_itemDetail_giaTien)).setText(product.getPrice());
+            ((TextView) child.findViewById(R.id.txtProductName)).setText(product.getProductName());
+            ((TextView) child.findViewById(R.id.txtProductPrice)).setText(product.getPrice());
+            TextView amount = child.findViewById(R.id.textView_cart_listItem_amount);
+            ((ImageView) child.findViewById(R.id.imageView_cart_listItem_plus)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int i = Integer.parseInt((String) amount.getText());
+                    i++;
+                    amount.setText(String.valueOf(i));
+                }
+            });
+
+            ((ImageView) child.findViewById(R.id.imageView_cart_listItem_minus)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int i = Integer.parseInt((String) amount.getText());
+                    i--;
+                    amount.setText(String.valueOf(i));
+                }
+            });
+
+            ((ImageView) child.findViewById(R.id.imageView_cart_listItem_delete)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    linearLayout.removeView(child);
+                }
+            });
+
             linearLayout.addView(child);
         }
     }
