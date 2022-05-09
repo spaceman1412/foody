@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,10 +41,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TextView tenShop =  holder.itemView.findViewById(R.id.textView_cart_tenShop);
-        ListView listView = holder.itemView.findViewById(R.id.listView_cart_listShop);
-
+        LinearLayout linearLayout = holder.itemView.findViewById(R.id.linearLayout_cart_listShop);
         tenShop.setText(cartItemList.get(position).getShop().getShopName());
-        listView.setAdapter(new CartListViewAdapter(cartItemList.get(position).getProducts()));
+
+        List<Product> listProduct = cartItemList.get(position).getProducts();
+        LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());
+        for(Product product : listProduct) {
+            View child = inflater.inflate(R.layout.cart_list_item,null);
+//            ((TextView) child.findViewById(R.id.textView_itemDetail_tenDoAn)).setText(product.getProductName());
+//            ((TextView) child.findViewById(R.id.textView_itemDetail_giaTien)).setText(product.getPrice());
+            linearLayout.addView(child);
+        }
     }
 
     @Override

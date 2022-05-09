@@ -3,35 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="@dimen/dimen24dp"
+    android:layout_height="wrap_content"
     >
 
-    <TextView
-        android:id="@+id/textView_cart_tenShop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Tên Shop"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.divider.MaterialDivider
-        android:id="@+id/materialDivider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="@dimen/dimen24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView_cart_tenShop" />
-
-    <ListView
-        android:id="@+id/listView_cart_listShop"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dimen24dp"
-        android:layout_weight="1"
-        app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView_cart_tenShop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Tên Shop"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/materialDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="@dimen/dimen24dp"
+             />
+
+        <LinearLayout
+            android:id="@+id/linearLayout_cart_listShop"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dimen24dp"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
 </LinearLayout>
