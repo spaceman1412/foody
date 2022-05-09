@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,12 +32,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_list_shop,parent,false);
+
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        TextView tenShop =  holder.itemView.findViewById(R.id.textView_cart_tenShop);
+        ListView listView = holder.itemView.findViewById(R.id.listView_cart_listShop);
 
+        tenShop.setText(cartItemList.get(position).getShop().getShopName());
+        listView.setAdapter(new CartListViewAdapter(cartItemList.get(position).getProducts()));
     }
 
     @Override
