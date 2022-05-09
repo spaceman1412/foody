@@ -56,19 +56,6 @@
                     android:textSize="@dimen/dimen18sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/freeShipping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen10dp"
-                    android:layout_marginTop="@dimen/dimen20dp"
-                    android:text="FREE Shipping"
-                    android:drawableStart="@drawable/ic_check_green"
-                    android:drawablePadding="@dimen/dimen5dp"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/dimen16sp"
-                    android:textStyle="bold" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

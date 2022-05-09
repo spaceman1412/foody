@@ -3,12 +3,15 @@ package com.example.foody.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foody.CartActivity;
 import com.example.foody.R;
+import com.example.foody.model.CartItem;
 import com.example.foody.model.Product;
 
 import java.util.List;
@@ -33,6 +36,18 @@ public class DetailItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((TextView) holder.itemView.findViewById(R.id.textView_itemDetail_tenDoAn)).setText(productList.get(position).getProductName());
         ((TextView) holder.itemView.findViewById(R.id.textView_itemDetail_giaTien)).setText(productList.get(position).getPrice());
+
+        List<Product> productList;
+
+//        CartItem cartItem = new CartItem("a",)
+
+        ((ImageView) holder.itemView.findViewById(R.id.imageView_item_detailItem)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 
     @Override

@@ -3,16 +3,6 @@ package com.example.foody.model;
 import java.util.List;
 
 public class CartItem {
-    String cartID;
-    List<Product> products;
-    String status;
-
-    public CartItem(String cartID, List<Product> products, String status) {
-        this.cartID = cartID;
-        this.products = products;
-        this.status = status;
-    }
-
     public String getCartID() {
         return cartID;
     }
@@ -29,11 +19,24 @@ public class CartItem {
         this.products = products;
     }
 
-    public String getStatus() {
-        return status;
+    public Shop getShop() {
+        return shop;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
+
+    String cartID;
+    List<Product> products;
+
+    public CartItem(String cartID, List<Product> products, Shop shop) {
+        this.cartID = cartID;
+        this.products = products;
+        this.shop = shop;
+    }
+
+    Shop shop;
+
+
 }
