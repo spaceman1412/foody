@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.example.foody.SQL.FoodyDbHelper;
 import com.example.foody.adapter.HomeAdapter;
 import com.example.foody.model.Shop;
 
@@ -41,11 +42,22 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         imageButton = (ImageButton) view.findViewById(R.id.btnCart);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_homeFragment);
+
+        FoodyDbHelper db = new FoodyDbHelper(view.getContext());
+
+
+
         shopList = new ArrayList<Shop>(
         );
-        shopList.add(new Shop("ShopName", "aaa", "aaaa"));
-        shopList.add(new Shop("ShopName1", "aaa", "aaaa"));
-        shopList.add(new Shop("ShopName2", "aaa", "aaaa"));
+//        shopList.add(new Shop(1,"ShopName", "aaa", "aaaa"));
+//
+//        shopList.add(new Shop(2,"ShopName1", "aaa", "aaaa"));
+//        shopList.add(new Shop(3,"ShopName2", "aaa", "aaaa"));
+
+//        db.addShop(new Shop(1,"ShopName", "aaa", "aaaa"));
+//        db.addShop(new Shop(2,"ShopName2", "aaa", "aaaa"));
+        db.deleteAllShop();
+        shopList = db.getAllShop();
         adapter = new HomeAdapter(shopList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
@@ -58,9 +70,6 @@ public class HomeFragment extends Fragment {
             }
         });
         // Inflate the layout for this fragment
-
         return view;
-
-
     }
 }
