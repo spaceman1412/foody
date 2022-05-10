@@ -5,12 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.foody.adapter.DetailItemAdapter;
 import com.example.foody.model.Product;
 import com.example.foody.model.Shop;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +43,11 @@ public class DetailItemActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView_detailItem_listItem);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new DetailItemAdapter(productsList));
+
+        ImageView imageview =((ImageView) findViewById(R.id.imageView_banner));
+        imageview.setImageResource(Integer.parseInt(shop.getImgUrl()));
+
+        TextView diaChi = findViewById(R.id.textView_detailItem_diaChi);
+        diaChi.setText(shop.getAdress());
     }
 }

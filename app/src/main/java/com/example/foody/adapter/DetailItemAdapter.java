@@ -13,6 +13,7 @@ import com.example.foody.CartActivity;
 import com.example.foody.R;
 import com.example.foody.model.CartItem;
 import com.example.foody.model.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 

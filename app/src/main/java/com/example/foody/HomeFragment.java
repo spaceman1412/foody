@@ -44,8 +44,8 @@ public class HomeFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_homeFragment);
 
         FoodyDbHelper db = new FoodyDbHelper(view.getContext());
-
-
+        db.deleteAllShop();
+        db.intitializeData();
 
         shopList = new ArrayList<Shop>(
         );
@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment {
 
 //        db.addShop(new Shop(1,"ShopName", "aaa", "aaaa"));
 //        db.addShop(new Shop(2,"ShopName2", "aaa", "aaaa"));
-        db.deleteAllShop();
         shopList = db.getAllShop();
         adapter = new HomeAdapter(shopList);
         recyclerView.setAdapter(adapter);

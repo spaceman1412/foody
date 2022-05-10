@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.foody.R;
 import com.example.foody.model.Shop;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_SHOP);
@@ -45,6 +48,37 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES);
         onCreate(sqLiteDatabase);
+    }
+
+    public void intitializeData()
+    {
+       int count = this.getShopCount();
+
+       if(count == 0 )
+       {
+           final List<Shop> shopList = new ArrayList<Shop>();
+
+           shopList.add(new Shop(1,"Cơm Ngon Giang Béo - Phố Bưởi", "250 Đường Bưởi, P. Cống Vị,  Quận Ba Đình, Hà Nội", String.valueOf(R.drawable.image1)));
+           shopList.add(new Shop(2,"Lẩu Đức Trọc - Tây Sơn", "61 Ngõ 298 Tây Sơn, P. Ngã Tư Sở, Đống Đa, Hà Nội", String.valueOf(R.drawable.image2)));
+           for(Shop shop: shopList)
+           {
+               addShop(shop);
+           }
+       }
+    }
+
+    public int getShopCount()
+    {
+        String countQuery = "SELECT * FROM " + FoodyDbHelper.TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(countQuery,null);
+
+        int count = cursor.getCount();
+
+        cursor.close();
+
+        return count;
     }
 
     public void addShop(Shop shop)
@@ -88,8 +122,5 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL(selectQuery);
-
-
-
     }
 }

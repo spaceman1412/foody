@@ -2,28 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="24dp"
     android:layout_marginTop="24dp"
-    >
-    <ImageView
-        android:id="@+id/imageView_home_shop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background"
-        />
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dimen175dp"
+        android:layout_height="@dimen/dimen175dp"
+        app:cardCornerRadius="@dimen/dimen20dp"
+        >
+
+        <ImageView
+            android:id="@+id/imageView_home_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_launcher_background" />
+    </androidx.cardview.widget.CardView>
+
     <TextView
         android:id="@+id/textView_home_tenDoAn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxEms="8"
+        android:maxLines="1"
         android:text="Tên đồ ăn"
-        android:textSize="17sp"
-        />
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
     <TextView
         android:id="@+id/textView_home_diaChi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxEms="8"
+        android:maxLines="1"
         android:text="Adress"
-        android:textSize="17sp"
-        />
+
+        android:textSize="15sp" />
 </LinearLayout>
