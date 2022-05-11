@@ -143,6 +143,30 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         return productList;
     }
 
+    public List<Shop> getShopWithShopId(String shopId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        List<Shop> shopList = new ArrayList<Shop>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME_SHOP + " WHERE " + COLUMN_ID_SHOP + " = " + shopId;
+
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Shop shop = new Shop(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),cursor.getString(3));
+
+                // Adding note to list
+                shopList.add(shop);
+            } while (cursor.moveToNext());
+        }
+
+        // return note list
+        return shopList;
+    }
+
     public long addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
 
