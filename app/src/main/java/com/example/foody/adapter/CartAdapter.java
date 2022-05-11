@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.foody.R;
 import com.example.foody.model.CartItem;
 import com.example.foody.model.Product;
+import com.example.foody.model.SingletonLogin;
 
 import java.util.List;
 
@@ -73,6 +74,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 @Override
                 public void onClick(View view) {
                     linearLayout.removeView(child);
+                    List<Product> getProduct = cartItemList.get(position).getProducts();
+                    getProduct.remove(product);
+                    SingletonLogin.getCartItemList().get(position).setProducts(getProduct);
                 }
             });
 
