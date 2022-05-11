@@ -31,12 +31,12 @@ public class DetailItemActivity extends AppCompatActivity {
         Shop shop = (Shop) extras.getSerializable("shop");
 
         List<Product> productsList = new ArrayList<Product>();
-        Product item1 = new Product("T01", "Chicken", "5$", "chicken01");
-        Product item2 = new Product("T02", "Hambergert", "3$", "item01");
-        Product item3 = new Product("T03", "Beefsteak Kobe", "50$", "item02");
-        productsList.add(item1);
-        productsList.add(item2);
-        productsList.add(item3);
+//        Product item1 = new Product("T01", "Chicken", "5$", "chicken01");
+//        Product item2 = new Product("T02", "Hambergert", "3$", "item01");
+//        Product item3 = new Product("T03", "Beefsteak Kobe", "50$", "item02");
+//        productsList.add(item1);
+//        productsList.add(item2);
+//        productsList.add(item3);
 
         TextView textView = findViewById(R.id.textView_titleNamedetail);
         textView.setText(shop.getShopName());

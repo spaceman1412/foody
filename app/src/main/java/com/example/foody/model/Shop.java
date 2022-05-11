@@ -2,22 +2,15 @@ package com.example.foody.model;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Shop implements Serializable {
-    public Shop(int id,String shopName, String adress,  String imgUrl) {
-        this.shopName = shopName;
-        this.adress = adress;
-        this.id = id;
-        this.imgUrl = imgUrl;
-    }
 
     String shopName;
     String adress;
+
+
     int id;
-
-
-
-    String imgUrl;
 
     public String getShopName() {
         return shopName;
@@ -35,6 +28,7 @@ public class Shop implements Serializable {
         this.adress = adress;
     }
 
+
     public int getId() {
         return id;
     }
@@ -48,6 +42,16 @@ public class Shop implements Serializable {
     }
 
     public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    String imgUrl;
+
+    public Shop(int id, String shopName, String adress, String imgUrl) {
+        this.shopName = shopName;
+        this.adress = adress;
+
+        this.id = id;
         this.imgUrl = imgUrl;
     }
 }

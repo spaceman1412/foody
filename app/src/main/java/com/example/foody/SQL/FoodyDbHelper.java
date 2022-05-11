@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.foody.R;
+import com.example.foody.model.Product;
 import com.example.foody.model.Shop;
 
 import java.util.ArrayList;
@@ -16,23 +17,41 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Foody.db";
 
-    private static final String TABLE_NAME = "foody_shop";
-    private static final String COLUMN_ID = "_id";
-    private static final String COLUMN_SHOPNAME = "shop_name";
-    private static final String COLUMN_ADRESS = "shop_adress";
-    private static final String COLUMN_IMGURL = "shop_imgUrl";
+    private static final String TABLE_NAME_SHOP = "foody_shop";
+    private static final String COLUMN_ID_SHOP = "_id";
+    private static final String COLUMN_SHOPNAME_SHOP = "shop_name";
+    private static final String COLUMN_ADRESS_SHOP = "shop_adress";
+    private static final String COLUMN_IMGURL_SHOP = "shop_imgUrl";
+
+    private static final String TABLE_NAME_PRODUCT = "foody_product";
+    private static final String COLUMN_ID_PRODUCT = "_id";
+    private static final String COLUMN_PRODUCTNAME_PRODUCT = "product_name";
+    private static final String COLUMN_PRICE_PRODUCT = "product_price";
+    private static final String COLUMN_IMGURL_PRODUCT = "product_imgUrl";
+    private static final String COLUMN_SHOPID_PRODUCT = "product_shopId";
 
 
     private static final String SQL_CREATE_TABLE_SHOP =
-            "CREATE TABLE " + FoodyDbHelper.TABLE_NAME + " (" +
-                    FoodyDbHelper.COLUMN_ID + " INTEGER PRIMARY KEY," +
-                    FoodyDbHelper.COLUMN_SHOPNAME + " TEXT," +
-                    FoodyDbHelper.COLUMN_ADRESS + " TEXT," +
-                    FoodyDbHelper.COLUMN_IMGURL + " TEXT)";
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME;
+            "CREATE TABLE " + FoodyDbHelper.TABLE_NAME_SHOP + " (" +
+                    FoodyDbHelper.COLUMN_ID_SHOP + " INTEGER PRIMARY KEY," +
+                    FoodyDbHelper.COLUMN_SHOPNAME_SHOP + " TEXT," +
+                    FoodyDbHelper.COLUMN_ADRESS_SHOP + " TEXT," +
+                    FoodyDbHelper.COLUMN_IMGURL_SHOP + " TEXT)";
+
+    private static final String SQL_CREATE_TABLE_PRODUCT =
+            "CREATE TABLE " + FoodyDbHelper.TABLE_NAME_PRODUCT + " (" +
+                    FoodyDbHelper.COLUMN_ID_PRODUCT + " INTEGER PRIMARY KEY," +
+                    FoodyDbHelper.COLUMN_PRODUCTNAME_PRODUCT + " TEXT," +
+                    FoodyDbHelper.COLUMN_PRICE_PRODUCT + " TEXT," +
+                    FoodyDbHelper.COLUMN_IMGURL_PRODUCT + " TEXT," +
+                    FoodyDbHelper.COLUMN_SHOPID_PRODUCT + " TEXT)";
+
+    private static final String SQL_DELETE_ENTRIES_SHOP =
+            "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_SHOP;
 
 
+    private static final String SQL_DELETE_ENTRIES_PRODUCT =
+            "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_PRODUCT;
     public FoodyDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -42,11 +61,14 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_SHOP);
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE_PRODUCT);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES);
+        sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_SHOP);
+        sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_PRODUCT);
+
         onCreate(sqLiteDatabase);
     }
 
@@ -57,9 +79,11 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
        if(count == 0 )
        {
            final List<Shop> shopList = new ArrayList<Shop>();
+           final List<Product> productList  = new ArrayList<Product>();
 
            shopList.add(new Shop(1,"Cơm Ngon Giang Béo - Phố Bưởi", "250 Đường Bưởi, P. Cống Vị,  Quận Ba Đình, Hà Nội", String.valueOf(R.drawable.image1)));
            shopList.add(new Shop(2,"Lẩu Đức Trọc - Tây Sơn", "61 Ngõ 298 Tây Sơn, P. Ngã Tư Sở, Đống Đa, Hà Nội", String.valueOf(R.drawable.image2)));
+//            productList.add(new Product("1",))
            for(Shop shop: shopList)
            {
                addShop(shop);
@@ -67,9 +91,12 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
        }
     }
 
+
+
+
     public int getShopCount()
     {
-        String countQuery = "SELECT * FROM " + FoodyDbHelper.TABLE_NAME;
+        String countQuery = "SELECT * FROM " + FoodyDbHelper.TABLE_NAME_SHOP;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(countQuery,null);
@@ -81,21 +108,57 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    public List<Product> getAllProduct()
+    {
+        String selectQuery = "SELECT  * FROM " + FoodyDbHelper.TABLE_NAME_PRODUCT;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+
+        List<Product> productList = new ArrayList<Product>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
+
+                // Adding note to list
+                productList.add(product);
+            } while (cursor.moveToNext());
+        }
+
+        // return note list
+        return productList;
+    }
+
+    public void addProduct(Product product)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FoodyDbHelper.COLUMN_PRODUCTNAME_PRODUCT,product.getProductName());
+        values.put(FoodyDbHelper.COLUMN_PRICE_PRODUCT,product.getPrice());
+        values.put(FoodyDbHelper.COLUMN_IMGURL_PRODUCT,product.getImageItem());
+        values.put(FoodyDbHelper.COLUMN_SHOPID_PRODUCT,product.getShopId());
+
+        long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_PRODUCT,null,values);
+    }
+
+
     public void addShop(Shop shop)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(FoodyDbHelper.COLUMN_SHOPNAME,shop.getShopName());
-        values.put(FoodyDbHelper.COLUMN_ADRESS,shop.getAdress());
-        values.put(FoodyDbHelper.COLUMN_IMGURL,shop.getImgUrl());
+        values.put(FoodyDbHelper.COLUMN_SHOPNAME_SHOP,shop.getShopName());
+        values.put(FoodyDbHelper.COLUMN_ADRESS_SHOP,shop.getAdress());
+        values.put(FoodyDbHelper.COLUMN_IMGURL_SHOP,shop.getImgUrl());
 
-        long newRowId = db.insert(FoodyDbHelper.TABLE_NAME,null,values);
+        long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_SHOP,null,values);
     }
 
     public List<Shop> getAllShop()
     {
-        String selectQuery = "SELECT  * FROM " + FoodyDbHelper.TABLE_NAME;
+        String selectQuery = "SELECT  * FROM " + FoodyDbHelper.TABLE_NAME_SHOP;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
@@ -117,7 +180,7 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
 
     public void deleteAllShop()
     {
-        String selectQuery = "DELETE FROM " + FoodyDbHelper.TABLE_NAME;
+        String selectQuery = "DELETE FROM " + FoodyDbHelper.TABLE_NAME_SHOP;
 
         SQLiteDatabase db = this.getWritableDatabase();
 
