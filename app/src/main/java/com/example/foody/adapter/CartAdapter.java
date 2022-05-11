@@ -81,12 +81,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 public void onClick(View view) {
                     linearLayout.removeView(child);
                     List<Product> getProduct = cartItemList.get(position).getProducts();
+                    List<CartItem> getCartList = SingletonLogin.getCartItemList();
                     getProduct.remove(product);
-                    if(getProduct.size() == 0) {
-                       linearLayoutLarge.removeAllViews();
-                       Log.d("CartAdapter","Calling remove layout");
-                    }
+
                     SingletonLogin.getCartItemList().get(position).setProducts(getProduct);
+                    if(SingletonLogin.getCartItemList().get(position).getProducts().size() == 0) {
+                        linearLayoutLarge.removeAllViews();
+                        Log.d("CartAdapter","Calling remove layout");
+                        getCartList.remove(cartItemList.get(position));
+                        SingletonLogin.setCartItemList(getCartList);
+                    }
                 }
             });
 
