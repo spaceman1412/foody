@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.foody.R;
+import com.example.foody.UserFragment;
 import com.example.foody.model.Product;
 import com.example.foody.model.Shop;
 import com.example.foody.model.SingletonLogin;
@@ -38,7 +39,6 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USERNAME_USER = "user_username";
     private static final String COLUMN_PASSWORD_USER = "user_password";
     private static final String COLUMN_EMAIL_USER = "user_email";
-
 
 
     private static final String SQL_CREATE_TABLE_SHOP =
@@ -141,8 +141,7 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         return productList;
     }
 
-    public long addUser(User user)
-    {
+    public long addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -152,12 +151,11 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
 
         long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_USER, null, values);
 
-        Log.d("FoodyDbHelper","Created successful "+ user.getEmail());
+        Log.d("FoodyDbHelper", "Created successful " + user.getEmail());
 
         Log.d("FoodyDbHelper", String.valueOf(newRowId));
         return newRowId;
     }
-
 
 
     public int getShopCount() {
@@ -171,6 +169,54 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return count;
+    }
+
+//    public User getUser(String email, String password) {
+//        SQLiteDatabase db = this.getReadableDatabase();
+//
+//        // Define a projection that specifies which columns from the database
+//        // you will actually use after this query.
+//        String[] projection = {
+//                FoodyDbHelper.COLUMN_ID_USER,
+//                FoodyDbHelper.COLUMN_USERNAME_USER,
+//                FoodyDbHelper.COLUMN_PASSWORD_USER,
+//                FoodyDbHelper.COLUMN_EMAIL_USER
+//        };
+//
+//        // Filter results WHERE "title" = 'My Title'
+//        String selection = FoodyDbHelper.COLUMN_EMAIL_USER + " = ? AND " + FoodyDbHelper.COLUMN_PASSWORD_USER + " = ?";
+//        String[] selectionArgs = {email, password};
+//
+//        // How you want the results sorted in the resulting Cursor
+//
+//
+//        Cursor cursor = db.query(
+//                FoodyDbHelper.TABLE_NAME_USER,   // The table to query
+//                projection,             // The array of columns to return (pass null to get all)
+//                selection,              // The columns for the WHERE clause
+//                selectionArgs,          // The values for the WHERE clause
+//                null,                   // don't group the rows
+//                null,                   // don't filter by row groups
+//                null               // The sort order
+//        );
+//
+//        User user = new User(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3));
+//        return user;
+//    }
+
+    public boolean checkUser(String email, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + FoodyDbHelper.TABLE_NAME_USER + " WHERE " + COLUMN_EMAIL_USER + " = ? AND " + COLUMN_PASSWORD_USER + " = ? ";
+
+
+        Cursor cursor = db.rawQuery(query, new String[]{email,password});
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
     }
 
     public List<Product> getAllProduct() {
