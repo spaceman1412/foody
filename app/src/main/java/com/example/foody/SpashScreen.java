@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.window.SplashScreen;
 
+import com.example.foody.model.SingletonLogin;
+
 public class SpashScreen extends AppCompatActivity {
 
     Intent intent;
@@ -18,7 +20,11 @@ public class SpashScreen extends AppCompatActivity {
         getSupportActionBar().hide();
 
         new Handler().postDelayed(() -> {
-            intent = new Intent(this, LoginActivity.class);
+            if(SingletonLogin.isLogined())
+            {
+                intent = new Intent(this, MainActivity.class);
+            }
+            else intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
         }, 3000);

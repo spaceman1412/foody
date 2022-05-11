@@ -10,6 +10,22 @@ public class SingletonLogin {
 
     private SingletonLogin() {};
 
+    public static boolean isLogined() {
+        return logined;
+    }
+
+    public static void setLogined(boolean logined) {
+        SingletonLogin.logined = logined;
+    }
+
+    public static String getUserId() {
+        return userId;
+    }
+
+    public static void setUserId(String userId) {
+        SingletonLogin.userId = userId;
+    }
+
     public static SingletonLogin getInstance() {
         return(INSTANCE);
     }

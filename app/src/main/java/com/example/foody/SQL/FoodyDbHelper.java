@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.foody.R;
 import com.example.foody.model.Product;
 import com.example.foody.model.Shop;
+import com.example.foody.model.SingletonLogin;
 import com.example.foody.model.User;
 
 import java.util.ArrayList;
@@ -140,7 +141,7 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         return productList;
     }
 
-    public void addUser(User user)
+    public long addUser(User user)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -152,6 +153,9 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_USER, null, values);
 
         Log.d("FoodyDbHelper","Created successful "+ user.getEmail());
+
+        Log.d("FoodyDbHelper", String.valueOf(newRowId));
+        return newRowId;
     }
 
 

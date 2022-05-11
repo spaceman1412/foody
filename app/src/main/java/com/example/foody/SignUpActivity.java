@@ -2,6 +2,7 @@ package com.example.foody;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.foody.SQL.FoodyDbHelper;
+import com.example.foody.model.SingletonLogin;
 import com.example.foody.model.User;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -33,8 +35,13 @@ public class SignUpActivity extends AppCompatActivity {
                 username = ((EditText) findViewById(R.id.userName)).getText().toString();
                 password = ((EditText) findViewById(R.id.userPassword)).getText().toString().trim();
                 email = ((EditText) findViewById(R.id.userEmail)).getText().toString().trim();
-                db.addUser(new User("2",username,password,email));
+                String userId = String.valueOf( db.addUser(new User("2",username,password,email)));
 
+                SingletonLogin.setLogined(true);
+                SingletonLogin.setUserId(userId);
+
+                Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
+                startActivity(intent);
             }
         });
     }
