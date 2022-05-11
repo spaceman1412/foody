@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
 
         FoodyDbHelper db = new FoodyDbHelper(view.getContext());
         db.deleteAllShop();
+        db.deleteAllProduct();
         db.intitializeData();
 
         shopList = new ArrayList<Shop>(

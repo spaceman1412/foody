@@ -5,16 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.foody.R;
 import com.example.foody.model.Product;
 import com.example.foody.model.Shop;
+import com.example.foody.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FoodyDbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "Foody.db";
 
     private static final String TABLE_NAME_SHOP = "foody_shop";
@@ -29,6 +31,13 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PRICE_PRODUCT = "product_price";
     private static final String COLUMN_IMGURL_PRODUCT = "product_imgUrl";
     private static final String COLUMN_SHOPID_PRODUCT = "product_shopId";
+
+    private static final String TABLE_NAME_USER = "foody_user";
+    private static final String COLUMN_ID_USER = "_id";
+    private static final String COLUMN_USERNAME_USER = "user_username";
+    private static final String COLUMN_PASSWORD_USER = "user_password";
+    private static final String COLUMN_EMAIL_USER = "user_email";
+
 
 
     private static final String SQL_CREATE_TABLE_SHOP =
@@ -46,12 +55,21 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
                     FoodyDbHelper.COLUMN_IMGURL_PRODUCT + " TEXT," +
                     FoodyDbHelper.COLUMN_SHOPID_PRODUCT + " TEXT)";
 
+    private static final String SQL_CREATE_TABLE_USER =
+            "CREATE TABLE " + FoodyDbHelper.TABLE_NAME_USER + " (" +
+                    FoodyDbHelper.COLUMN_ID_USER + " INTEGER PRIMARY KEY," +
+                    FoodyDbHelper.COLUMN_USERNAME_USER + " TEXT," +
+                    FoodyDbHelper.COLUMN_PASSWORD_USER + " TEXT," +
+                    FoodyDbHelper.COLUMN_EMAIL_USER + " TEXT)";
+
     private static final String SQL_DELETE_ENTRIES_SHOP =
             "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_SHOP;
 
 
     private static final String SQL_DELETE_ENTRIES_PRODUCT =
             "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_PRODUCT;
+    private static final String SQL_DELETE_ENTRIES_USER =
+            "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_USER;
 
     public FoodyDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -62,12 +80,14 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_SHOP);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_PRODUCT);
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE_USER);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_SHOP);
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_PRODUCT);
+        sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_USER);
 
         onCreate(sqLiteDatabase);
     }
@@ -118,9 +138,23 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
 
         // return note list
         return productList;
-
-
     }
+
+    public void addUser(User user)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FoodyDbHelper.COLUMN_USERNAME_USER, user.getUsername());
+        values.put(FoodyDbHelper.COLUMN_PASSWORD_USER, user.getPassword());
+        values.put(FoodyDbHelper.COLUMN_EMAIL_USER, user.getEmail());
+
+        long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_USER, null, values);
+
+        Log.d("FoodyDbHelper","Created successful "+ user.getEmail());
+    }
+
+
 
     public int getShopCount() {
         String countQuery = "SELECT * FROM " + FoodyDbHelper.TABLE_NAME_SHOP;
@@ -203,6 +237,14 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
 
     public void deleteAllShop() {
         String selectQuery = "DELETE FROM " + FoodyDbHelper.TABLE_NAME_SHOP;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL(selectQuery);
+    }
+
+    public void deleteAllProduct() {
+        String selectQuery = "DELETE FROM " + FoodyDbHelper.TABLE_NAME_PRODUCT;
 
         SQLiteDatabase db = this.getWritableDatabase();
 

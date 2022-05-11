@@ -44,8 +44,8 @@ public class CartActivity extends AppCompatActivity {
 //        productsList.add(item2);
 //        productsList.add(item3);
 
-        cartItemList.add(new CartItem("a",productsList,new Shop(1,"a","a","a")));
-        cartItemList.add(new CartItem("a",productsList,new Shop(2,"a","a","a")));
+//        cartItemList.add(new CartItem("a",productsList,new Shop(1,"a","a","a")));
+//        cartItemList.add(new CartItem("a",productsList,new Shop(2,"a","a","a")));
 //        cartItemList.add(new CartItem("a",productsList,new Shop("a","a","a")));
 //        cartItemList.add(new CartItem("a",productsList,new Shop("a","a","a")));
 

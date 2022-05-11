@@ -18,7 +18,7 @@ public class SpashScreen extends AppCompatActivity {
         getSupportActionBar().hide();
 
         new Handler().postDelayed(() -> {
-            intent = new Intent(this, MainActivity.class);
+            intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
         }, 3000);
