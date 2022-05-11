@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.foody.SQL.FoodyDbHelper;
 import com.example.foody.adapter.DetailItemAdapter;
 import com.example.foody.model.Product;
 import com.example.foody.model.Shop;
@@ -26,7 +27,7 @@ public class DetailItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_item);
-
+        FoodyDbHelper db = new FoodyDbHelper(this);
         Bundle extras = getIntent().getExtras();
         Shop shop = (Shop) extras.getSerializable("shop");
 
@@ -37,6 +38,7 @@ public class DetailItemActivity extends AppCompatActivity {
 //        productsList.add(item1);
 //        productsList.add(item2);
 //        productsList.add(item3);
+        productsList = db.getProductWithShopId(String.valueOf(shop.getId()));
 
         TextView textView = findViewById(R.id.textView_titleNamedetail);
         textView.setText(shop.getShopName());

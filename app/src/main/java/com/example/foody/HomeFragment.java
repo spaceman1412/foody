@@ -49,13 +49,7 @@ public class HomeFragment extends Fragment {
 
         shopList = new ArrayList<Shop>(
         );
-//        shopList.add(new Shop(1,"ShopName", "aaa", "aaaa"));
-//
-//        shopList.add(new Shop(2,"ShopName1", "aaa", "aaaa"));
-//        shopList.add(new Shop(3,"ShopName2", "aaa", "aaaa"));
 
-//        db.addShop(new Shop(1,"ShopName", "aaa", "aaaa"));
-//        db.addShop(new Shop(2,"ShopName2", "aaa", "aaaa"));
         shopList = db.getAllShop();
         adapter = new HomeAdapter(shopList);
         recyclerView.setAdapter(adapter);

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FoodyDbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "Foody.db";
 
     private static final String TABLE_NAME_SHOP = "foody_shop";
@@ -52,10 +52,10 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
 
     private static final String SQL_DELETE_ENTRIES_PRODUCT =
             "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_PRODUCT;
+
     public FoodyDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
 
 
     @Override
@@ -72,34 +72,61 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void intitializeData()
-    {
-       int count = this.getShopCount();
+    public void intitializeData() {
+        int count = this.getShopCount();
 
-       if(count == 0 )
-       {
-           final List<Shop> shopList = new ArrayList<Shop>();
-           final List<Product> productList  = new ArrayList<Product>();
+        if (count == 0) {
+            final List<Shop> shopList = new ArrayList<Shop>();
+            final List<Product> productList = new ArrayList<Product>();
 
-           shopList.add(new Shop(1,"Cơm Ngon Giang Béo - Phố Bưởi", "250 Đường Bưởi, P. Cống Vị,  Quận Ba Đình, Hà Nội", String.valueOf(R.drawable.image1)));
-           shopList.add(new Shop(2,"Lẩu Đức Trọc - Tây Sơn", "61 Ngõ 298 Tây Sơn, P. Ngã Tư Sở, Đống Đa, Hà Nội", String.valueOf(R.drawable.image2)));
-//            productList.add(new Product("1",))
-           for(Shop shop: shopList)
-           {
-               addShop(shop);
-           }
-       }
+            shopList.add(new Shop(1, "Cơm Ngon Giang Béo - Phố Bưởi", "250 Đường Bưởi, P. Cống Vị,  Quận Ba Đình, Hà Nội", String.valueOf(R.drawable.image1)));
+            shopList.add(new Shop(2, "Lẩu Đức Trọc - Tây Sơn", "61 Ngõ 298 Tây Sơn, P. Ngã Tư Sở, Đống Đa, Hà Nội", String.valueOf(R.drawable.image2)));
+            productList.add(new Product("1", "Trà Chanh", "5", "", "1"));
+            productList.add(new Product("2", "Bún giả cầy", "50", "", "1"));
+            productList.add(new Product("3", "Ếch Xào Thả Lẩu 0,5kg"
+                    , "151", "", "2"));
+            productList.add(new Product("4", "Ba Chỉ Bò Mỹ 0,5kg"
+                    , "160", "", "2"));
+            for (Shop shop : shopList) {
+                addShop(shop);
+            }
+            for (Product product : productList) {
+                addProduct(product);
+            }
+        }
     }
 
+    public List<Product> getProductWithShopId(String shopId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        List<Product> productList = new ArrayList<Product>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME_PRODUCT + " WHERE " + COLUMN_SHOPID_PRODUCT + " = " + shopId;
 
 
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-    public int getShopCount()
-    {
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+
+                // Adding note to list
+                productList.add(product);
+            } while (cursor.moveToNext());
+        }
+
+        // return note list
+        return productList;
+
+
+    }
+
+    public int getShopCount() {
         String countQuery = "SELECT * FROM " + FoodyDbHelper.TABLE_NAME_SHOP;
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(countQuery,null);
+        Cursor cursor = db.rawQuery(countQuery, null);
 
         int count = cursor.getCount();
 
@@ -108,18 +135,17 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public List<Product> getAllProduct()
-    {
+    public List<Product> getAllProduct() {
         String selectQuery = "SELECT  * FROM " + FoodyDbHelper.TABLE_NAME_PRODUCT;
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
         List<Product> productList = new ArrayList<Product>();
 
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
+                Product product = new Product(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
 
                 // Adding note to list
                 productList.add(product);
@@ -130,44 +156,41 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         return productList;
     }
 
-    public void addProduct(Product product)
-    {
+    public void addProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(FoodyDbHelper.COLUMN_PRODUCTNAME_PRODUCT,product.getProductName());
-        values.put(FoodyDbHelper.COLUMN_PRICE_PRODUCT,product.getPrice());
-        values.put(FoodyDbHelper.COLUMN_IMGURL_PRODUCT,product.getImageItem());
-        values.put(FoodyDbHelper.COLUMN_SHOPID_PRODUCT,product.getShopId());
+        values.put(FoodyDbHelper.COLUMN_PRODUCTNAME_PRODUCT, product.getProductName());
+        values.put(FoodyDbHelper.COLUMN_PRICE_PRODUCT, product.getPrice());
+        values.put(FoodyDbHelper.COLUMN_IMGURL_PRODUCT, product.getImageItem());
+        values.put(FoodyDbHelper.COLUMN_SHOPID_PRODUCT, product.getShopId());
 
-        long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_PRODUCT,null,values);
+        long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_PRODUCT, null, values);
     }
 
 
-    public void addShop(Shop shop)
-    {
+    public void addShop(Shop shop) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(FoodyDbHelper.COLUMN_SHOPNAME_SHOP,shop.getShopName());
-        values.put(FoodyDbHelper.COLUMN_ADRESS_SHOP,shop.getAdress());
-        values.put(FoodyDbHelper.COLUMN_IMGURL_SHOP,shop.getImgUrl());
+        values.put(FoodyDbHelper.COLUMN_SHOPNAME_SHOP, shop.getShopName());
+        values.put(FoodyDbHelper.COLUMN_ADRESS_SHOP, shop.getAdress());
+        values.put(FoodyDbHelper.COLUMN_IMGURL_SHOP, shop.getImgUrl());
 
-        long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_SHOP,null,values);
+        long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_SHOP, null, values);
     }
 
-    public List<Shop> getAllShop()
-    {
+    public List<Shop> getAllShop() {
         String selectQuery = "SELECT  * FROM " + FoodyDbHelper.TABLE_NAME_SHOP;
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
         List<Shop> shopList = new ArrayList<Shop>();
 
         if (cursor.moveToFirst()) {
             do {
-                Shop shop = new Shop(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),cursor.getString(3));
+                Shop shop = new Shop(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
 
                 // Adding note to list
                 shopList.add(shop);
@@ -178,8 +201,7 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         return shopList;
     }
 
-    public void deleteAllShop()
-    {
+    public void deleteAllShop() {
         String selectQuery = "DELETE FROM " + FoodyDbHelper.TABLE_NAME_SHOP;
 
         SQLiteDatabase db = this.getWritableDatabase();
