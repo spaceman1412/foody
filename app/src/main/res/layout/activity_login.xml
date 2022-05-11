@@ -40,6 +40,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/custom_border"
                 android:hint="@string/email"
+                android:text="thuanthien@gmail.com"
                 android:inputType="textEmailAddress"
                 android:padding="@dimen/dimen5dp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_border"
                 android:hint="@string/password"
+                android:text="matkhau1"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"

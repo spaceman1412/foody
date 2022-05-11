@@ -42,7 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TextView tenShop =  holder.itemView.findViewById(R.id.textView_cart_tenShop);
         LinearLayout linearLayout = holder.itemView.findViewById(R.id.linearLayout_cart_listShop);
-        tenShop.setText(cartItemList.get(position).getShop().getShopName());
+        tenShop.setText(cartItemList.get(position).getShopName());
 
         List<Product> listProduct = cartItemList.get(position).getProducts();
         LayoutInflater inflater = LayoutInflater.from(holder.itemView.getContext());

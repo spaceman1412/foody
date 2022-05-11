@@ -6,6 +6,7 @@ public class Product {
     String price;
     String imageItem;
     String shopId;
+    String cartId;
 
     public String getProductId() {
         return productId;
@@ -47,11 +48,20 @@ public class Product {
         this.shopId = shopId;
     }
 
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
+    }
+
     public Product(String productId, String productName, String price, String imageItem, String shopId) {
         this.productId = productId;
         this.productName = productName;
         this.price = price;
         this.imageItem = imageItem;
         this.shopId = shopId;
+
     }
 }

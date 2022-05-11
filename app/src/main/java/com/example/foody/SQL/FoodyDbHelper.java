@@ -41,6 +41,8 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
     private static final String COLUMN_EMAIL_USER = "user_email";
 
 
+
+
     private static final String SQL_CREATE_TABLE_SHOP =
             "CREATE TABLE " + FoodyDbHelper.TABLE_NAME_SHOP + " (" +
                     FoodyDbHelper.COLUMN_ID_SHOP + " INTEGER PRIMARY KEY," +

@@ -8,7 +8,7 @@ public class CartItem {
     String cartID;
     List<Product> products;
 
-    Shop shop;
+    String shopName;
     String userId;
 
     public String getCartID() {
@@ -27,12 +27,12 @@ public class CartItem {
         this.products = products;
     }
 
-    public Shop getShop() {
-        return shop;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setShop(Shop shop) {
-        this.shop = shop;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
     public String getUserId() {
@@ -43,10 +43,10 @@ public class CartItem {
         this.userId = userId;
     }
 
-    public CartItem(String cartID, List<Product> products, Shop shop, String userId) {
+    public CartItem(String cartID, List<Product> products, String shopName, String userId) {
         this.cartID = cartID;
         this.products = products;
-        this.shop = shop;
+        this.shopName = shopName;
         this.userId = userId;
     }
 }
