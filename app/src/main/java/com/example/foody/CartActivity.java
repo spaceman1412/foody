@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foody.adapter.CartAdapter;
@@ -72,19 +73,22 @@ public class CartActivity extends AppCompatActivity {
         }
 
 
-        adapter = new CartAdapter(getlist);
+        adapter = new CartAdapter(getlist,this);
 
         recyclerView.setAdapter(adapter);
-
 
         btnCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 Intent intent = new Intent(view.getContext(), CheckoutActivity.class);
                 view.getContext().startActivity(intent);
             }
         });
     }
+
+
 
 
     public void DoSingleTon() {

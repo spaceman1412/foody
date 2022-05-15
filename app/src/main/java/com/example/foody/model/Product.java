@@ -7,6 +7,15 @@ public class Product {
     String imageItem;
     String shopId;
     String cartId;
+    String checkOutId;
+
+    public String getCheckOutId() {
+        return checkOutId;
+    }
+
+    public void setCheckOutId(String checkOutId) {
+        this.checkOutId = checkOutId;
+    }
 
     public String getProductId() {
         return productId;

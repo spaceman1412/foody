@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.foody.R;
 import com.example.foody.UserFragment;
 import com.example.foody.model.Product;
+import com.example.foody.model.ProductAmount;
 import com.example.foody.model.Shop;
 import com.example.foody.model.SingletonLogin;
 import com.example.foody.model.User;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FoodyDbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Foody.db";
 
     private static final String TABLE_NAME_SHOP = "foody_shop";
@@ -40,7 +41,14 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PASSWORD_USER = "user_password";
     private static final String COLUMN_EMAIL_USER = "user_email";
 
+    private static final String TABLE_NAME_PRODUCTAMOUNT = "foody_productAmount";
+    private static final String COLUMN_ID_PRODUCTAMOUNT = "_id";
+    private static final String COLUMN_AMOUNT_PRODUCTAMOUNT = "productAmount_amount";
+    private static final String COLUMN_PRODUCTID_PRODUCTAMOUNT = "productAmount_productId";
 
+    private static final String TABLE_NAME_CHECKOUT = "foody_checkOut";
+    private static final String COLUMN_ID_CHECKOUT = "_id";
+    private static final String COLUMN_PRICE_CHECKOUT = "checkOut_price";
 
 
     private static final String SQL_CREATE_TABLE_SHOP =
@@ -65,6 +73,19 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
                     FoodyDbHelper.COLUMN_PASSWORD_USER + " TEXT," +
                     FoodyDbHelper.COLUMN_EMAIL_USER + " TEXT)";
 
+    private static final String SQL_CREATE_TABLE_PRODUCTAMOUNT =
+            "CREATE TABLE " + FoodyDbHelper.TABLE_NAME_PRODUCTAMOUNT + " (" +
+                    FoodyDbHelper.COLUMN_ID_PRODUCTAMOUNT + " INTEGER PRIMARY KEY, " +
+                    FoodyDbHelper.COLUMN_AMOUNT_PRODUCTAMOUNT + " TEXT, " +
+                    FoodyDbHelper.COLUMN_PRODUCTID_PRODUCTAMOUNT + " TEXT)";
+
+    private static final String SQL_CREATE_TABLE_CHECKOUT =
+            "CREATE TABLE " + FoodyDbHelper.TABLE_NAME_CHECKOUT + " (" +
+                    FoodyDbHelper.COLUMN_ID_CHECKOUT + " INTEGER PRIMARY KEY, " +
+                    FoodyDbHelper.COLUMN_PRICE_CHECKOUT + " TEXT)";
+
+
+
     private static final String SQL_DELETE_ENTRIES_SHOP =
             "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_SHOP;
 
@@ -73,6 +94,12 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_PRODUCT;
     private static final String SQL_DELETE_ENTRIES_USER =
             "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_USER;
+
+    private static final String SQL_DELETE_ENTRIES_PRODUCTAMOUNT =
+            "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_PRODUCTAMOUNT;
+
+    private static final String SQL_DELETE_ENTRIES_CHECKOUT =
+            "DROP TABLE IF EXISTS " + FoodyDbHelper.TABLE_NAME_CHECKOUT;
 
     public FoodyDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -84,6 +111,8 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_SHOP);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_PRODUCT);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_USER);
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE_PRODUCTAMOUNT);
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE_CHECKOUT);
     }
 
     @Override
@@ -91,6 +120,8 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_SHOP);
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_PRODUCT);
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_USER);
+        sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_PRODUCTAMOUNT);
+        sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES_CHECKOUT);
 
         onCreate(sqLiteDatabase);
     }
@@ -104,12 +135,22 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
 
             shopList.add(new Shop(1, "Cơm Ngon Giang Béo - Phố Bưởi", "250 Đường Bưởi, P. Cống Vị,  Quận Ba Đình, Hà Nội", String.valueOf(R.drawable.image1)));
             shopList.add(new Shop(2, "Lẩu Đức Trọc - Tây Sơn", "61 Ngõ 298 Tây Sơn, P. Ngã Tư Sở, Đống Đa, Hà Nội", String.valueOf(R.drawable.image2)));
+            shopList.add(new Shop(3, "Lâm Anh - Bún Đậu & Bún Nước", "2 Ngách 44/64 Ngõ 44 Trần Thái Tông, P. Dịch Vọng Hậu, Cầu Giấy, Hà Nội", String.valueOf(R.drawable.image2)));
+            shopList.add(new Shop(4, "Trà Sữa Tocotoco - Ngọc Hồi", "Km13 QL1A Ngọc Hồi, X. Ngọc Hồi, Thanh Trì, Hà Nội", String.valueOf(R.drawable.image2)));
             productList.add(new Product("1", "Trà Chanh", "5", "", "1"));
             productList.add(new Product("2", "Bún giả cầy", "50", "", "1"));
             productList.add(new Product("3", "Ếch Xào Thả Lẩu 0,5kg"
                     , "151", "", "2"));
             productList.add(new Product("4", "Ba Chỉ Bò Mỹ 0,5kg"
                     , "160", "", "2"));
+            productList.add(new Product("5", "Bún Sườn Mọc Măng"
+                    , "36", "", "3"));
+            productList.add(new Product("6", "Nước đậu nành"
+                    , "9", "", "3"));
+            productList.add(new Product("7", "Trà Sữa Ba Anh Em"
+                    , "28", "", "4"));
+            productList.add(new Product("8", "Trà Xanh Sữa Vị Nhài"
+                    , "22", "", "4"));
             for (Shop shop : shopList) {
                 addShop(shop);
             }
@@ -156,7 +197,7 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Shop shop = new Shop(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),cursor.getString(3));
+                Shop shop = new Shop(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
 
                 // Adding note to list
                 shopList.add(shop);
@@ -165,6 +206,46 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
 
         // return note list
         return shopList;
+    }
+
+    public Product getProductWithProductId(String productId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME_PRODUCT + " WHERE " + COLUMN_ID_PRODUCT + " = " + productId;
+
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Product product = null;
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                product = new Product(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
+
+                // Adding note to list
+            } while (cursor.moveToNext());
+        }
+
+        // return note list
+        return product;
+    }
+
+    public long addProductAmount(ProductAmount productAmount) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FoodyDbHelper.COLUMN_AMOUNT_PRODUCTAMOUNT, productAmount.getAmount());
+        values.put(FoodyDbHelper.COLUMN_PRODUCTID_PRODUCTAMOUNT, productAmount.getProduct().getProductId());
+
+
+        long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_PRODUCTAMOUNT, null, values);
+
+//        Log.d("FoodyDbHelper", "Created successful " + productAmount);
+
+        Log.d("FoodyDbHelper", String.valueOf(newRowId));
+        return newRowId;
     }
 
     public long addUser(User user) {
@@ -181,6 +262,27 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
 
         Log.d("FoodyDbHelper", String.valueOf(newRowId));
         return newRowId;
+    }
+
+    public List<ProductAmount> getAllProductAmount() {
+        String selectQuery = "SELECT  * FROM " + FoodyDbHelper.TABLE_NAME_PRODUCTAMOUNT;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        List<ProductAmount> productAmountList = new ArrayList<ProductAmount>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                ProductAmount productAmount = new ProductAmount(cursor.getString(0), Integer.parseInt( cursor.getString(1)), getProductWithProductId(cursor.getString(2)));
+
+                // Adding note to list
+                productAmountList.add(productAmount);
+            } while (cursor.moveToNext());
+        }
+
+        // return note list
+        return productAmountList;
     }
 
 
@@ -236,8 +338,8 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + FoodyDbHelper.TABLE_NAME_USER + " WHERE " + COLUMN_EMAIL_USER + " = ? AND " + COLUMN_PASSWORD_USER + " = ? ";
 
 
-        Cursor cursor = db.rawQuery(query, new String[]{email,password});
-        if(cursor.getCount() <= 0){
+        Cursor cursor = db.rawQuery(query, new String[]{email, password});
+        if (cursor.getCount() <= 0) {
             cursor.close();
             return false;
         }
@@ -266,7 +368,7 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         return productList;
     }
 
-    public void addProduct(Product product) {
+    public long addProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -276,6 +378,7 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
         values.put(FoodyDbHelper.COLUMN_SHOPID_PRODUCT, product.getShopId());
 
         long newRowId = db.insert(FoodyDbHelper.TABLE_NAME_PRODUCT, null, values);
+        return newRowId;
     }
 
 
@@ -318,6 +421,15 @@ public class FoodyDbHelper extends SQLiteOpenHelper {
 
         db.execSQL(selectQuery);
     }
+
+    public void deleteAllProductAmount() {
+        String selectQuery = "DELETE FROM " + FoodyDbHelper.TABLE_NAME_PRODUCTAMOUNT;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL(selectQuery);
+    }
+
 
     public void deleteAllProduct() {
         String selectQuery = "DELETE FROM " + FoodyDbHelper.TABLE_NAME_PRODUCT;

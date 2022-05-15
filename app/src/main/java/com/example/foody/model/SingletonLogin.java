@@ -13,6 +13,27 @@ public class SingletonLogin {
 
     public static List<Product> productList = new ArrayList<Product>();
 
+    public static List<ProductAmount> getProductAmountList() {
+        return productAmountList;
+    }
+
+    public static void setProductAmountList(List<ProductAmount> productAmountList) {
+        SingletonLogin.productAmountList = productAmountList;
+    }
+
+    public static int getPrice()
+    {
+        int total = 0;
+        for(ProductAmount productAmount: productAmountList)
+        {
+            int price = Integer.parseInt(productAmount.getProduct().getPrice())*productAmount.getAmount();
+            total += price;
+        }
+        return total;
+    }
+
+    public static List<ProductAmount> productAmountList = new ArrayList<ProductAmount>();
+
     public static List<CartItem> getCartItemList() {
         return cartItemList;
     }
